@@ -13,6 +13,7 @@ message RoomStatus {
   repeated Poker public = 3;         //公共牌
   repeated Poker hand = 4;           //玩家手牌
   int32 banker = 5;        //庄家位置
+  bool speak = 6;          //现在是否speak
 }
 
 message PlayerStatus {
