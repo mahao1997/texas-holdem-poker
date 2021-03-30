@@ -1,7 +1,9 @@
 syntax = "proto3"
 package texas
 
-message ServerStatus {
+message GetStatusResponse {
+  int32 code;        //错误码
+  string info;       //错误信息
   int32 status;      //当前用户所在的状态，浏览大厅中/房间中/其他新增功能
   HallStatus hall_status;      //大厅的状态
   RoomStatus room_status;      //房间的状态
@@ -39,4 +41,29 @@ message PlayerStatus {
 message Poker {
   int32 suit;  //花色
   int32 num;   //点数
+}
+
+message GetStatusRequest {
+  UserInfo user_info;   //用户信息
+  int32 status;         //用户状态，在房间还是在大厅
+  string room_id;       //如果在房间，房间的id是什么
+  
+}
+message UserInfo {
+  string user_name;  //用户名
+  string passwd;     //密码
+}
+message ActionRequest {
+  UserInfo user_info;   //用户信息
+  int32 status;         //用户状态，在房间还是在大厅
+  string room_id;       //如果在房间，房间的id是什么
+  string extra;         //一个json，解析玩家的动作（如在大厅则是加入房间，如在房间则是准备/离开/check/call/rise/folded）
+}
+message ActionResponse {
+  int32 code;           //错误码
+  string info;          //错误信息
+}
+service Texas {
+  rpc GetStatus(GetStatusRequest) returns (GetStatusResponse)
+  rpc Action(ActionRequest) returns (ActionResponse)
 }
