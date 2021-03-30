@@ -1,69 +1,79 @@
-syntax = "proto3"
-package texas
+syntax = "proto3";
+package texas;
 
 message GetStatusResponse {
-  int32 code;        //错误码
-  string info;       //错误信息
-  int32 status;      //当前用户所在的状态，浏览大厅中/房间中/其他新增功能
-  HallStatus hall_status;      //大厅的状态
-  RoomStatus room_status;      //房间的状态
-}
-
-message HallStatus {
-  repeated RoomInfo room_infos;  //大厅中显示的房间信息  
-}
-
-message RoomInfo {
-  string room_name;  //房间名称
-  int32 room_id;     //房间id
-  int32 player_num;  //玩家人数
-  int32 blind;       //盲注额度
-  int32 buyin;       //买入大小
+  int32 code = 1;        //错误码
+  string info = 2;       //错误信息
+  RoomStatus room_status = 3;      //房间的状态
 }
 
 message RoomStatus {
-  int32 status;      //当前房间的状态，开局前/翻牌/转牌/河牌
-  repeated PlayerStatus players; //玩家状态
-  repeated Poker public;         //公共牌
-  repeated Poker hand;           //玩家手牌
-  int32 banker;        //庄家位置
+  int32 status = 1;      //当前房间的状态，开局前/翻牌/转牌/河牌
+  repeated PlayerStatus players = 2; //玩家状态
+  repeated Poker public = 3;         //公共牌
+  repeated Poker hand = 4;           //玩家手牌
+  int32 banker = 5;        //庄家位置
 }
 
 message PlayerStatus {
-  string player_name;  //玩家名称
-  int32 player_id;     //玩家id
-  int32 counter;       //筹码量
-  int32 buyin_time;    //buyin次数
-  int32 seat_num;      //座位号
-  bool active;        //active/folded状态
+  string player_name = 1;  //玩家名称
+  int32 player_id = 2;     //玩家id
+  int32 counter = 3;       //筹码量
+  int32 buyin_time = 4;    //buyin次数
+  int32 seat_num = 5;      //座位号
+  bool active = 6;        //active/folded状态
 }
 
 message Poker {
-  int32 suit;  //花色
-  int32 num;   //点数
+  int32 suit = 1;  //花色
+  int32 value = 2;   //点数
 }
 
 message GetStatusRequest {
-  UserInfo user_info;   //用户信息
-  int32 status;         //用户状态，在房间还是在大厅
-  string room_id;       //如果在房间，房间的id是什么
+  UserInfo user_info = 1;   //用户信息
+  int32 room_id = 2;       //如果在房间，房间的id是什么
   
 }
 message UserInfo {
-  string user_name;  //用户名
-  string passwd;     //密码
+  string user_name = 1;  //用户名
+  string passwd = 2;     //密码
 }
 message ActionRequest {
-  UserInfo user_info;   //用户信息
-  int32 status;         //用户状态，在房间还是在大厅
-  string room_id;       //如果在房间，房间的id是什么
-  string extra;         //一个json，解析玩家的动作（如在大厅则是加入房间，如在房间则是准备/离开/check/call/rise/folded）
+  UserInfo user_info = 1;   //用户信息
+  int32 room_id = 2;       //如果在房间，房间的id是什么
+  string extra = 3;         //一个json，解析玩家的动作（准备/离开/check/call/rise/folded）
 }
 message ActionResponse {
-  int32 code;           //错误码
-  string info;          //错误信息
+  int32 code = 1;           //错误码
+  string info = 2;          //错误信息
 }
+
+message CreateRoomRequest {
+  string room_name = 1;  //房间名称
+  int32 blind = 2;       //盲注额度
+  int32 buyin = 3;       //买入大小
+  UserInfo user_info = 4;   //用户信息
+}
+
+message GetinRoomRequest {
+  int32 room_id = 1;     //房间id
+  UserInfo user_info = 2;   //用户信息
+}
+
+message RoomResponse {
+  int32 code = 1;        //错误码
+  string info = 2;       //错误信息
+  string room_name = 3;  //房间名
+  int32 room_id = 4;     //房间id
+  int32 blind = 5;       //盲注额度
+  int32 buyin = 6;       //买入大小
+}
+
 service Texas {
-  rpc GetStatus(GetStatusRequest) returns (GetStatusResponse)
-  rpc Action(ActionRequest) returns (ActionResponse)
+  rpc UserLogin(UserInfo) returns (ActionResponse) {}
+  rpc UserRegister(UserInfo) returns (ActionResponse) {}
+  rpc GetStatus(GetStatusRequest) returns (GetStatusResponse) {}
+  rpc Action(ActionRequest) returns (ActionResponse) {}
+  rpc CreateRoom(CreateRoomRequest) returns (RoomResponse) {}
+  rpc GetinRoom(GetinRoomRequest) returns (RoomResponse) {}
 }
