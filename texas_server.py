@@ -31,7 +31,7 @@ import traceback
             res = game_engine.login_user(request.user_info)
             if not res:
                 return GetStatusResponse(code=-1, info="get status failed:\nWrong user or password")
-            return GetStatusResponse(code=0, info="get status success", room_status=game_engine.rooms[request.room_id].GetStatus())
+            return GetStatusResponse(code=0, info="get status success", room_status=game_engine.rooms[request.room_id].GetStatus(request.user_info.user_name))
         except:
             return GetStatusResponse(code=-1, info="get status failed:\n{}")
 
@@ -40,7 +40,7 @@ import traceback
             res = game_engine.login_user(request.user_info)
             if not res:
                 return ActionResponse(code=-1, info="login user failed:\nWrong user or password")
-            game_engine.rooms[request.room_id].push_action(request.extra)
+            game_engine.rooms[request.room_id].PushAction(request.user_info.user_name, request.extra)
             return ActionResponse(code=0, info="action recieved success.")
         except:
             return ActionResponse(code=-1, info="action recieved failed:\n{}".format(traceback.format_exc()))
