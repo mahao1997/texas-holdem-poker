@@ -1,0 +1,42 @@
+syntax = "proto3"
+package texas
+
+message ServerStatus {
+  int32 status;      //当前用户所在的状态，浏览大厅中/房间中/其他新增功能
+  HallStatus hall_status;      //大厅的状态
+  RoomStatus room_status;      //房间的状态
+}
+
+message HallStatus {
+  repeated RoomInfo room_infos;  //大厅中显示的房间信息  
+}
+
+message RoomInfo {
+  string room_name;  //房间名称
+  int32 room_id;     //房间id
+  int32 player_num;  //玩家人数
+  int32 blind;       //盲注额度
+  int32 buyin;       //买入大小
+}
+
+message RoomStatus {
+  int32 status;      //当前房间的状态，开局前/翻牌/转牌/河牌
+  repeated PlayerStatus players; //玩家状态
+  repeated Poker public;         //公共牌
+  repeated Poker hand;           //玩家手牌
+  int32 banker;        //庄家位置
+}
+
+message PlayerStatus {
+  string player_name;  //玩家名称
+  int32 player_id;     //玩家id
+  int32 counter;       //筹码量
+  int32 buyin_time;    //buyin次数
+  int32 seat_num;      //座位号
+  bool active;        //active/folded状态
+}
+
+message Poker {
+  int32 suit;  //花色
+  int32 num;   //点数
+}
