@@ -11,9 +11,8 @@ message RoomStatus {
   int32 stage = 1;      //当前房间的状态，开局前/翻牌/转牌/河牌
   repeated PlayerStatus players = 2; //玩家状态
   repeated Poker public = 3;         //公共牌
-  repeated Poker hand = 4;           //玩家手牌
-  int32 banker = 5;        //庄家位置
-  int32 speak = 6;          //现在是否speak
+  int32 banker = 4;        //庄家位置
+  int32 speak = 5;          //现在是否speak
 }
 
 message PlayerStatus {
@@ -21,7 +20,10 @@ message PlayerStatus {
   int32 player_id = 2;     //玩家id
   int32 counter = 3;       //筹码量
   int32 buyin_time = 4;    //buyin次数
-  bool active = 5;        //active/folded状态
+  bool active = 5;         //active/folded状态
+  bool ready = 6           //准备
+  int32 pool = 7;          //该玩家投入的筹码量
+  repeated Poker hands = 8;           //玩家手牌
 }
 
 message Poker {
