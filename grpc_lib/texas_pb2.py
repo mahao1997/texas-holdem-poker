@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0btexas.proto\x12\x05texas\"W\n\x11GetStatusResponse\x12\x0c\n\x04\x63ode\x18\x01 \x01(\x05\x12\x0c\n\x04info\x18\x02 \x01(\t\x12&\n\x0broom_status\x18\x03 \x01(\x0b\x32\x11.texas.RoomStatus\"\x9b\x01\n\nRoomStatus\x12\x0e\n\x06status\x18\x01 \x01(\x05\x12$\n\x07players\x18\x02 \x03(\x0b\x32\x13.texas.PlayerStatus\x12\x1c\n\x06public\x18\x03 \x03(\x0b\x32\x0c.texas.Poker\x12\x1a\n\x04hand\x18\x04 \x03(\x0b\x32\x0c.texas.Poker\x12\x0e\n\x06\x62\x61nker\x18\x05 \x01(\x05\x12\r\n\x05speak\x18\x06 \x01(\x08\"}\n\x0cPlayerStatus\x12\x13\n\x0bplayer_name\x18\x01 \x01(\t\x12\x11\n\tplayer_id\x18\x02 \x01(\x05\x12\x0f\n\x07\x63ounter\x18\x03 \x01(\x05\x12\x12\n\nbuyin_time\x18\x04 \x01(\x05\x12\x10\n\x08seat_num\x18\x05 \x01(\x05\x12\x0e\n\x06\x61\x63tive\x18\x06 \x01(\x08\"$\n\x05Poker\x12\x0c\n\x04suit\x18\x01 \x01(\x05\x12\r\n\x05value\x18\x02 \x01(\x05\"G\n\x10GetStatusRequest\x12\"\n\tuser_info\x18\x01 \x01(\x0b\x32\x0f.texas.UserInfo\x12\x0f\n\x07room_id\x18\x02 \x01(\x05\"-\n\x08UserInfo\x12\x11\n\tuser_name\x18\x01 \x01(\t\x12\x0e\n\x06passwd\x18\x02 \x01(\t\"S\n\rActionRequest\x12\"\n\tuser_info\x18\x01 \x01(\x0b\x32\x0f.texas.UserInfo\x12\x0f\n\x07room_id\x18\x02 \x01(\x05\x12\r\n\x05\x65xtra\x18\x03 \x01(\t\",\n\x0e\x41\x63tionResponse\x12\x0c\n\x04\x63ode\x18\x01 \x01(\x05\x12\x0c\n\x04info\x18\x02 \x01(\t\"h\n\x11\x43reateRoomRequest\x12\x11\n\troom_name\x18\x01 \x01(\t\x12\r\n\x05\x62lind\x18\x02 \x01(\x05\x12\r\n\x05\x62uyin\x18\x03 \x01(\x05\x12\"\n\tuser_info\x18\x04 \x01(\x0b\x32\x0f.texas.UserInfo\"G\n\x10GetinRoomRequest\x12\x0f\n\x07room_id\x18\x01 \x01(\x05\x12\"\n\tuser_info\x18\x02 \x01(\x0b\x32\x0f.texas.UserInfo\"l\n\x0cRoomResponse\x12\x0c\n\x04\x63ode\x18\x01 \x01(\x05\x12\x0c\n\x04info\x18\x02 \x01(\t\x12\x11\n\troom_name\x18\x03 \x01(\t\x12\x0f\n\x07room_id\x18\x04 \x01(\x05\x12\r\n\x05\x62lind\x18\x05 \x01(\x05\x12\r\n\x05\x62uyin\x18\x06 \x01(\x05\x32\xef\x02\n\x05Texas\x12\x35\n\tUserLogin\x12\x0f.texas.UserInfo\x1a\x15.texas.ActionResponse\"\x00\x12\x38\n\x0cUserRegister\x12\x0f.texas.UserInfo\x1a\x15.texas.ActionResponse\"\x00\x12@\n\tGetStatus\x12\x17.texas.GetStatusRequest\x1a\x18.texas.GetStatusResponse\"\x00\x12\x37\n\x06\x41\x63tion\x12\x14.texas.ActionRequest\x1a\x15.texas.ActionResponse\"\x00\x12=\n\nCreateRoom\x12\x18.texas.CreateRoomRequest\x1a\x13.texas.RoomResponse\"\x00\x12;\n\tGetinRoom\x12\x17.texas.GetinRoomRequest\x1a\x13.texas.RoomResponse\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x0btexas.proto\x12\x05texas\"W\n\x11GetStatusResponse\x12\x0c\n\x04\x63ode\x18\x01 \x01(\x05\x12\x0c\n\x04info\x18\x02 \x01(\t\x12&\n\x0broom_status\x18\x03 \x01(\x0b\x32\x11.texas.RoomStatus\"~\n\nRoomStatus\x12\r\n\x05stage\x18\x01 \x01(\x05\x12$\n\x07players\x18\x02 \x03(\x0b\x32\x13.texas.PlayerStatus\x12\x1c\n\x06public\x18\x03 \x03(\x0b\x32\x0c.texas.Poker\x12\x0e\n\x06\x62\x61nker\x18\x04 \x01(\x05\x12\r\n\x05speak\x18\x05 \x01(\x05\"\xa5\x01\n\x0cPlayerStatus\x12\x13\n\x0bplayer_name\x18\x01 \x01(\t\x12\x11\n\tplayer_id\x18\x02 \x01(\x05\x12\x0f\n\x07\x63ounter\x18\x03 \x01(\x05\x12\x12\n\nbuyin_time\x18\x04 \x01(\x05\x12\x0e\n\x06\x61\x63tive\x18\x05 \x01(\x08\x12\r\n\x05ready\x18\x06 \x01(\x08\x12\x0c\n\x04pool\x18\x07 \x01(\x05\x12\x1b\n\x05hands\x18\x08 \x03(\x0b\x32\x0c.texas.Poker\"$\n\x05Poker\x12\x0c\n\x04suit\x18\x01 \x01(\x05\x12\r\n\x05value\x18\x02 \x01(\x05\"G\n\x10GetStatusRequest\x12\"\n\tuser_info\x18\x01 \x01(\x0b\x32\x0f.texas.UserInfo\x12\x0f\n\x07room_id\x18\x02 \x01(\x05\"-\n\x08UserInfo\x12\x11\n\tuser_name\x18\x01 \x01(\t\x12\x0e\n\x06passwd\x18\x02 \x01(\t\"S\n\rActionRequest\x12\"\n\tuser_info\x18\x01 \x01(\x0b\x32\x0f.texas.UserInfo\x12\x0f\n\x07room_id\x18\x02 \x01(\x05\x12\r\n\x05\x65xtra\x18\x03 \x01(\t\",\n\x0e\x41\x63tionResponse\x12\x0c\n\x04\x63ode\x18\x01 \x01(\x05\x12\x0c\n\x04info\x18\x02 \x01(\t\"h\n\x11\x43reateRoomRequest\x12\x11\n\troom_name\x18\x01 \x01(\t\x12\r\n\x05\x62lind\x18\x02 \x01(\x05\x12\r\n\x05\x62uyin\x18\x03 \x01(\x05\x12\"\n\tuser_info\x18\x04 \x01(\x0b\x32\x0f.texas.UserInfo\"G\n\x10GetinRoomRequest\x12\x0f\n\x07room_id\x18\x01 \x01(\x05\x12\"\n\tuser_info\x18\x02 \x01(\x0b\x32\x0f.texas.UserInfo\"l\n\x0cRoomResponse\x12\x0c\n\x04\x63ode\x18\x01 \x01(\x05\x12\x0c\n\x04info\x18\x02 \x01(\t\x12\x11\n\troom_name\x18\x03 \x01(\t\x12\x0f\n\x07room_id\x18\x04 \x01(\x05\x12\r\n\x05\x62lind\x18\x05 \x01(\x05\x12\r\n\x05\x62uyin\x18\x06 \x01(\x05\x32\xef\x02\n\x05Texas\x12\x35\n\tUserLogin\x12\x0f.texas.UserInfo\x1a\x15.texas.ActionResponse\"\x00\x12\x38\n\x0cUserRegister\x12\x0f.texas.UserInfo\x1a\x15.texas.ActionResponse\"\x00\x12@\n\tGetStatus\x12\x17.texas.GetStatusRequest\x1a\x18.texas.GetStatusResponse\"\x00\x12\x37\n\x06\x41\x63tion\x12\x14.texas.ActionRequest\x1a\x15.texas.ActionResponse\"\x00\x12=\n\nCreateRoom\x12\x18.texas.CreateRoomRequest\x1a\x13.texas.RoomResponse\"\x00\x12;\n\tGetinRoom\x12\x17.texas.GetinRoomRequest\x1a\x13.texas.RoomResponse\"\x00\x62\x06proto3'
 )
 
 
@@ -80,7 +80,7 @@ _ROOMSTATUS = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='status', full_name='texas.RoomStatus.status', index=0,
+      name='stage', full_name='texas.RoomStatus.stage', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -101,23 +101,16 @@ _ROOMSTATUS = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='hand', full_name='texas.RoomStatus.hand', index=3,
-      number=4, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='banker', full_name='texas.RoomStatus.banker', index=4,
-      number=5, type=5, cpp_type=1, label=1,
+      name='banker', full_name='texas.RoomStatus.banker', index=3,
+      number=4, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='speak', full_name='texas.RoomStatus.speak', index=5,
-      number=6, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
+      name='speak', full_name='texas.RoomStatus.speak', index=4,
+      number=5, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -133,8 +126,8 @@ _ROOMSTATUS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=112,
-  serialized_end=267,
+  serialized_start=111,
+  serialized_end=237,
 )
 
 
@@ -175,16 +168,30 @@ _PLAYERSTATUS = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='seat_num', full_name='texas.PlayerStatus.seat_num', index=4,
-      number=5, type=5, cpp_type=1, label=1,
+      name='active', full_name='texas.PlayerStatus.active', index=4,
+      number=5, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='ready', full_name='texas.PlayerStatus.ready', index=5,
+      number=6, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='pool', full_name='texas.PlayerStatus.pool', index=6,
+      number=7, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='active', full_name='texas.PlayerStatus.active', index=5,
-      number=6, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
+      name='hands', full_name='texas.PlayerStatus.hands', index=7,
+      number=8, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -200,8 +207,8 @@ _PLAYERSTATUS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=269,
-  serialized_end=394,
+  serialized_start=240,
+  serialized_end=405,
 )
 
 
@@ -239,8 +246,8 @@ _POKER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=396,
-  serialized_end=432,
+  serialized_start=407,
+  serialized_end=443,
 )
 
 
@@ -278,8 +285,8 @@ _GETSTATUSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=434,
-  serialized_end=505,
+  serialized_start=445,
+  serialized_end=516,
 )
 
 
@@ -317,8 +324,8 @@ _USERINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=507,
-  serialized_end=552,
+  serialized_start=518,
+  serialized_end=563,
 )
 
 
@@ -363,8 +370,8 @@ _ACTIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=554,
-  serialized_end=637,
+  serialized_start=565,
+  serialized_end=648,
 )
 
 
@@ -402,8 +409,8 @@ _ACTIONRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=639,
-  serialized_end=683,
+  serialized_start=650,
+  serialized_end=694,
 )
 
 
@@ -455,8 +462,8 @@ _CREATEROOMREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=685,
-  serialized_end=789,
+  serialized_start=696,
+  serialized_end=800,
 )
 
 
@@ -494,8 +501,8 @@ _GETINROOMREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=791,
-  serialized_end=862,
+  serialized_start=802,
+  serialized_end=873,
 )
 
 
@@ -561,14 +568,14 @@ _ROOMRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=864,
-  serialized_end=972,
+  serialized_start=875,
+  serialized_end=983,
 )
 
 _GETSTATUSRESPONSE.fields_by_name['room_status'].message_type = _ROOMSTATUS
 _ROOMSTATUS.fields_by_name['players'].message_type = _PLAYERSTATUS
 _ROOMSTATUS.fields_by_name['public'].message_type = _POKER
-_ROOMSTATUS.fields_by_name['hand'].message_type = _POKER
+_PLAYERSTATUS.fields_by_name['hands'].message_type = _POKER
 _GETSTATUSREQUEST.fields_by_name['user_info'].message_type = _USERINFO
 _ACTIONREQUEST.fields_by_name['user_info'].message_type = _USERINFO
 _CREATEROOMREQUEST.fields_by_name['user_info'].message_type = _USERINFO
@@ -672,8 +679,8 @@ _TEXAS = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=975,
-  serialized_end=1342,
+  serialized_start=986,
+  serialized_end=1353,
   methods=[
   _descriptor.MethodDescriptor(
     name='UserLogin',

@@ -5,7 +5,7 @@ from grpc_lib import texas_pb2_grpc, texas_pb2
 
 from engine import game_engine
 import traceback
-#class Texas(texas_pb2_grpc.TexasServicer):
+class Texas(texas_pb2_grpc.TexasServicer):
     # 实现 proto 文件中定义的 rpc 调用
     #def SayHelloAgain(self, request, context):
     #    return helloworld_pb2.HelloReply(message='hello {msg}'.format(msg = request.name))

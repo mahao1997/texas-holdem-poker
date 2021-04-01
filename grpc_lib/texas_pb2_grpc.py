@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import texas_pb2 as texas__pb2
+import grpc_lib.texas_pb2 as texas__pb2
 
 
 class TexasStub(object):

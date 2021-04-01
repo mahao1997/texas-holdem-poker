@@ -63,7 +63,7 @@ class Room():
     def PushAction(self, user_name, action):
         self.queue.push((user_name, json.loads(action)))
         
-    def GetStatus(self, user_id)    
+    def GetStatus(self, user_id): 
         rsp = RoomStatus()
         rsp.stage = self.stage
         for player in self.players:

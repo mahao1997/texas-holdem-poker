@@ -6,7 +6,7 @@ class Deck:
     def get_pokers(self):
         res = []
         for poker in self.pokers:
-            res.append((Card.get_rank_int(a), Card.get_suit_int(card_int))
+            res.append((Card.get_rank_int(a), Card.get_suit_int(card_int)))
         return res
     def draw(self, engine):
         self.pokers.append(engine.draw())

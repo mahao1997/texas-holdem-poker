@@ -21,7 +21,7 @@ message PlayerStatus {
   int32 counter = 3;       //筹码量
   int32 buyin_time = 4;    //buyin次数
   bool active = 5;         //active/folded状态
-  bool ready = 6           //准备
+  bool ready = 6;           //准备
   int32 pool = 7;          //该玩家投入的筹码量
   repeated Poker hands = 8;           //玩家手牌
 }
