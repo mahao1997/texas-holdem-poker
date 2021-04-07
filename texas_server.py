@@ -2,7 +2,7 @@ from concurrent import futures
 import time
 import grpc
 from grpc_lib import texas_pb2_grpc, texas_pb2
-
+from grpc_lib.texas_pb2 import *
 from engine import game_engine
 import traceback
 class Texas(texas_pb2_grpc.TexasServicer):
@@ -67,7 +67,7 @@ class Texas(texas_pb2_grpc.TexasServicer):
 def serve():
     # 启动 rpc 服务
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    texas_pb2_grpc.add_TexasServicer_to_server(texas_pb2_grpc.TexasServicer(), server)
+    texas_pb2_grpc.add_TexasServicer_to_server(Texas(), server)
     server.add_insecure_port('[::]:50051')
     server.start()
     try:
