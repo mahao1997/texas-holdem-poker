@@ -1,4 +1,6 @@
 from grpc_lib.texas_pb2 import Poker 
+from poker import Deck
+from grpc_lib.texas_pb2 import PlayerStatus
 class Player():
     def __init__(self, player_name, counter, player_id):
         self.player_name = player_name
@@ -49,3 +51,7 @@ class Player():
                     self.counter -= money
                     self.pool += money
                     return self.pool
+            except queue.Empty:
+                self.active = False
+                return target
+

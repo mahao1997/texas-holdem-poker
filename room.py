@@ -4,7 +4,7 @@ from queue import Queue
 from grpc_lib.texas_pb2 import RoomResponse, RoomStatus, PlayerStatus, Poker
 import json
 from poker import PokerEngine, Deck, CalWinners
-
+from player import Player
 class Room():
     def __init__(self, room_name, blind, buyin, room_id):
         self.room_name = room_name
@@ -63,11 +63,12 @@ class Room():
     def PushAction(self, user_name, action):
         self.queue.push((user_name, json.loads(action)))
         
-    def GetStatus(self, user_id): 
+    def GetStatus(self, user_name): 
         rsp = RoomStatus()
         rsp.stage = self.stage
         for player in self.players:
-            if player.user_id == user_id or self.stage == 1:
+            print('get status find player {}, id = {}'.format(player.player_name,player.player_id))
+            if player.player_id == user_name or self.stage == 1:
                 rsp.players.append(player.GetStatus(hands=True))
             else:
                 rsp.players.append(player.GetStatus(hands=False))
