@@ -1,5 +1,5 @@
 import random
-from deuces import Deck
+from deuces import Deck as deuces_deck
 class Deck:
     def __init__(self):
         self.pokers = []
@@ -15,7 +15,7 @@ class PokerEngine:
     def __init__(self):
         self.wash()
     def wash(self):
-        self.deck = Deck()
+        self.deck = deuces_deck()
         self.deck.shuffle()
     def draw(self):
         return self.deck.draw(1)

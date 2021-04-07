@@ -23,6 +23,7 @@ class Engine():
         self.pool.apply_async(new_room.run)
         self.rooms[new_room.room_id] = new_room
         return new_room.room_id
+
     def generate_roomid(self):
         new_id = random.randint(100000, 999999)
         while new_id in self.rooms:

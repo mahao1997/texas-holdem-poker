@@ -33,7 +33,7 @@ class Texas(texas_pb2_grpc.TexasServicer):
                 return GetStatusResponse(code=-1, info="get status failed:\nWrong user or password")
             return GetStatusResponse(code=0, info="get status success", room_status=game_engine.rooms[request.room_id].GetStatus(request.user_info.user_name))
         except:
-            return GetStatusResponse(code=-1, info="get status failed:\n{}")
+            return GetStatusResponse(code=-1, info="get status failed:\n{}".format(traceback.format_exc()))
 
     def Action(self, request, context):
         try:
@@ -60,6 +60,7 @@ class Texas(texas_pb2_grpc.TexasServicer):
             res = game_engine.login_user(request.user_info)
             if not res:
                 return RoomResponse(code=-1, info="login user failed:\nWrong user or password")
+            game_engine.rooms[request.room_id].AddPlayer(request.user_info.user_name)
             return game_engine.rooms[request.room_id].GetRoomInfo()
         except:
             return RoomResponse(code=-1, info="create room failed:\n{}".format(traceback.format_exc()))
