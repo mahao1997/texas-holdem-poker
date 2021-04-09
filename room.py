@@ -5,6 +5,8 @@ from grpc_lib.texas_pb2 import RoomResponse, RoomStatus, PlayerStatus, Poker
 import json
 from poker import PokerEngine, Deck, CalWinners
 from player import Player
+import traceback
+import time
 class Room():
     def __init__(self, room_name, blind, buyin, room_id):
         self.room_name = room_name
@@ -33,15 +35,19 @@ class Room():
             self.players_cache[player_name] = player
         else:
             player = self.players_cache[player_name]
+        for player_in_room in self.players:
+            if player_in_room.player_name == player_name:
+                return False
         player.player_id = len(self.players) + 1
         player.active = False
         player.ready = False
         self.players.append(player)
+        return True
 
     def DelPlayer(self, player_name):
         idx = -1
         for player_idx, player in enumerate(self.players):
-            if players.player_name == player_name:
+            if player.player_name == player_name:
                 idx = player_idx
         if idx == -1:
             raise Exception('can not find player {}'.format(player_name))
@@ -61,14 +67,14 @@ class Room():
         return rsp
 
     def PushAction(self, user_name, action):
-        self.queue.push((user_name, json.loads(action)))
+        self.queue.push((user_name, action))
         
     def GetStatus(self, user_name): 
         rsp = RoomStatus()
         rsp.stage = self.stage
         for player in self.players:
-            print('get status find player {}, id = {}'.format(player.player_name,player.player_id))
-            if player.player_id == user_name or self.stage == 1:
+            #print('get status find player {}, id = {}'.format(player.player_name,player.player_id))
+            if player.player_name == user_name or self.stage == 1:
                 rsp.players.append(player.GetStatus(hands=True))
             else:
                 rsp.players.append(player.GetStatus(hands=False))
@@ -76,6 +82,7 @@ class Room():
             rsp.public.append(Poker(suit=suit, value=value))
         rsp.banker = self.banker
         rsp.speak = self.speak
+        #print('get status = {}'.format(rsp))
         return rsp
 
     def active_player(self):
@@ -89,16 +96,23 @@ class Room():
         for player in self.players:
             if player.player_name == player_name:
                 return player
-
     def run(self):
+        try:
+            self._run()
+        except:
+            print(traceback.format_exc())
+    def _run(self):
         target = 0
         btn = 0
         ptr = 0
         while True:
+            while len(self.players) == 0:
+                time.sleep(1)
             if self.stage == 1:
                 while not (len(self.players) >= 2 and self.active_player() == len(self.players)):
                     try:
                         user_name, action = self.queue.get(timeout = 20)
+                        print('recieve action:{} {}'.format(user_name, action))
                         if action['action'] == 'quit':
                             self.DelPlayer(user_name)
                             continue
@@ -106,6 +120,7 @@ class Room():
                             continue
                         player = self.find_player(user_name) 
                         player.ready = True
+                        print('set player {} ready'.format(player.player_name))
                     except queue.Empty:
                         for player in self.players:
                             if not player.ready:
@@ -114,6 +129,7 @@ class Room():
                 for player in self.players:
                     if player.counter < self.blind * 2:
                         player.BuyIn(self.buyin)
+                print('begin stage 2')
                 self.stage = 2
             elif self.stage == 2:
                 self.PokerEngine.wash()
@@ -137,6 +153,7 @@ class Room():
                     if ptr == btn and first_ptr_flag:
                         first_ptr_flag = False
                     if self.players[ptr].active:
+                        self.speak = ptr
                         new_target = self.players[ptr].Speak(target, self.queue)
                         if new_target != target:
                             target = new_target
@@ -153,6 +170,7 @@ class Room():
                     if ptr == btn and first_ptr_flag:
                         first_ptr_flag = False
                     if self.players[ptr].active:
+                        self.speak = ptr
                         new_target = self.players[ptr].Speak(target, self.queue)
                         if new_target != target:
                             target = new_target
@@ -167,6 +185,7 @@ class Room():
                     if ptr == btn and first_ptr_flag:
                         first_ptr_flag = False
                     if self.players[ptr].active:
+                        self.speak = ptr
                         new_target = self.players[ptr].Speak(target, self.queue)
                         if new_target != target:
                             target = new_target
