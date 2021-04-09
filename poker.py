@@ -1,15 +1,19 @@
 import random
 from deuces import Deck as deuces_deck
+from deuces import Card, Evaluator
+evaluator = Evaluator()
 class Deck:
     def __init__(self):
         self.pokers = []
     def get_pokers(self):
         res = []
         for poker in self.pokers:
-            res.append((Card.get_rank_int(a), Card.get_suit_int(card_int)))
+            res.append((Card.get_rank_int(poker), Card.get_suit_int(poker)))
         return res
     def draw(self, engine):
         self.pokers.append(engine.draw())
+    def clear(self):
+        self.pokers = []
 
 class PokerEngine:
     def __init__(self):

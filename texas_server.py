@@ -5,6 +5,7 @@ from grpc_lib import texas_pb2_grpc, texas_pb2
 from grpc_lib.texas_pb2 import *
 from engine import game_engine
 import traceback
+import json
 class Texas(texas_pb2_grpc.TexasServicer):
     # 实现 proto 文件中定义的 rpc 调用
     #def SayHelloAgain(self, request, context):
@@ -40,7 +41,7 @@ class Texas(texas_pb2_grpc.TexasServicer):
             res = game_engine.login_user(request.user_info)
             if not res:
                 return ActionResponse(code=-1, info="login user failed:\nWrong user or password")
-            game_engine.rooms[request.room_id].PushAction(request.user_info.user_name, request.extra)
+            game_engine.rooms[request.room_id].queue.put((request.user_info.user_name, json.loads(request.extra)))
             return ActionResponse(code=0, info="action recieved success.")
         except:
             return ActionResponse(code=-1, info="action recieved failed:\n{}".format(traceback.format_exc()))
@@ -60,7 +61,9 @@ class Texas(texas_pb2_grpc.TexasServicer):
             res = game_engine.login_user(request.user_info)
             if not res:
                 return RoomResponse(code=-1, info="login user failed:\nWrong user or password")
-            game_engine.rooms[request.room_id].AddPlayer(request.user_info.user_name)
+            res = game_engine.rooms[request.room_id].AddPlayer(request.user_info.user_name)
+            if not res:
+                return RoomResponse(code=-1, info="login user failed")
             return game_engine.rooms[request.room_id].GetRoomInfo()
         except:
             return RoomResponse(code=-1, info="create room failed:\n{}".format(traceback.format_exc()))
