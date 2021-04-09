@@ -74,6 +74,7 @@ def serve():
     texas_pb2_grpc.add_TexasServicer_to_server(Texas(), server)
     server.add_insecure_port('[::]:50051')
     server.start()
+    print("Server is running...")
     try:
         while True:
             time.sleep(60*60*24) # one day in seconds
