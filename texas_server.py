@@ -41,7 +41,7 @@ class Texas(texas_pb2_grpc.TexasServicer):
             res = game_engine.login_user(request.user_info)
             if not res:
                 return ActionResponse(code=-1, info="login user failed:\nWrong user or password")
-            game_engine.rooms[request.room_id].PushAction(request.user_info.user_name, json.loads(request.extra))
+            game_engine.rooms[request.room_id].queue.put((request.user_info.user_name, json.loads(request.extra)))
             return ActionResponse(code=0, info="action recieved success.")
         except:
             return ActionResponse(code=-1, info="action recieved failed:\n{}".format(traceback.format_exc()))

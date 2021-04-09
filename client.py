@@ -8,6 +8,7 @@ def regist(input_user_info):
     stub = texas_pb2_grpc.TexasStub(channel)
     response = stub.UserRegister(input_user_info)
     print(response)
+    return response
 
 def login(input_user_info):
     channel = grpc.insecure_channel('localhost:50051')
@@ -42,10 +43,12 @@ def send_action(extra, room_id):
     channel = grpc.insecure_channel('localhost:50051')
     stub = texas_pb2_grpc.TexasStub(channel)
     response = stub.Action(texas_pb2.ActionRequest(user_info=user_info, room_id=room_id, extra=json.dumps(extra)))
+    print(response)
     return response
    
 def get_myid(status):
     for player in status.room_status.players:
+        print('player name = {}, user name = {}, equal = {}'.format(player.player_name, user_info.user_name, player.player_name == user_info.user_name))
         if player.player_name == user_info.user_name:
             return player.player_id
 if __name__ == '__main__':
@@ -57,7 +60,9 @@ if __name__ == '__main__':
             user_name = input("input your user name\n").strip()
             pass_wd = input("input your password\n").strip()
             regist_user_info = texas_pb2.UserInfo(user_name=user_name, passwd=pass_wd)
-            regist(regist_user_info)
+            rsp = regist(regist_user_info)
+            if rsp.code == 0:
+                user_info = regist_user_info
         if st == 'l':
             user_name = input("input your user name\n").strip()
             pass_wd = input("input your password\n").strip()
@@ -82,6 +87,9 @@ if __name__ == '__main__':
             print(status)
             pre_status = status
             myid = get_myid(status)
+            print('myid = {}'.format(myid))
+            if status.room_status.speak == 0 and status.room_status.players[myid - 1].ready:
+                continue
             if status.room_status.speak == 0:
                 st = input("input your action\nready\nquit\n")
                 if st == 'ready':
