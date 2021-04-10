@@ -24,7 +24,7 @@ class TestRender(unittest.TestCase):
         status.players[0].hands.append(texas_pb2.Poker())
         status.players[0].hands.append(texas_pb2.Poker())
         status.players[0].hands[0].suit = 12
-        status.players[0].hands[0].value = 2
+        status.players[0].hands[0].value = 1
         status.players[0].hands[1].suit = 10
         status.players[0].hands[1].value = 4
 
@@ -37,8 +37,29 @@ class TestRender(unittest.TestCase):
         status.players[1].ready = True
         status.players[1].pool = 5
 
+        status.public.append(texas_pb2.Poker())
+        status.public.append(texas_pb2.Poker())
+        status.public.append(texas_pb2.Poker())
+        status.public[0].suit = 0
+        status.public[0].value = 2
+        status.public[1].suit = 1
+        status.public[1].value = 4
+        status.public[2].suit = 2
+        status.public[2].value = 8
+
         status.banker = 1
         status.speak = 2
+        render = Render()
+        render.parse(status, myid=1)
+        render.draw()
+
+    def test_longname(self):
+        status = texas_pb2.RoomStatus()
+        status.players.append(texas_pb2.PlayerStatus())
+        status.players[
+            0
+        ].player_name = "Pablo Diego José Francisco de Paula Juan Nepomuceno Crispín Crispiniano María Remedios de la Santísima Trinidad Ruiz Picasso"
+
         render = Render()
         render.parse(status, myid=1)
         render.draw()
