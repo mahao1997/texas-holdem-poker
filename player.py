@@ -12,7 +12,7 @@ class Player():
         self.pool = 0
         self.hands=Deck()
 
-    def GetStatus(self, hands):
+    def GetStatus(self, show_hands):
         rsp = PlayerStatus()
         rsp.player_name = self.player_name
         rsp.player_id = self.player_id
@@ -21,21 +21,23 @@ class Player():
         rsp.active = self.active
         rsp.ready = self.ready
         rsp.pool = self.pool
-        for suit, value in self.hands.get_pokers():
-            rsp.public.append(Poker(suit=suit, value=value))
+        if show_hands:
+            for suit, value in self.hands.get_pokers():
+                rsp.hands.append(Poker(suit=suit, value=value))
         return rsp
 
     def BuyIn(self, buyin):
         self.buyin_time += 1
         self.counter += buyin
 
-    def Speak(self, target, queue, btn):
+    def Speak(self, target, queue):
         while True:
             #allin
             if self.counter == 0:
                 return target
-            try:
-                user_name, action = self.queue.get(timeout = 20)
+            #try:
+            if True:
+                user_name, action = queue.get()
                 if user_name != self.player_name:
                     continue
                 if action['action'] == 'call':
@@ -51,7 +53,10 @@ class Player():
                     self.counter -= money
                     self.pool += money
                     return self.pool
-            except queue.Empty:
-                self.active = False
-                return target
+            #except queue.Empty:
+            #    self.active = False
+            #    return target
 
+    def PutBlind(self, money):
+        self.counter -= money
+        self.pool += money
