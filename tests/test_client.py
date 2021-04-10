@@ -38,6 +38,36 @@ class TestClient(unittest.TestCase):
             for i in range(num_players):
                 rsp = client[i].action({"action": "call"})
                 self.assertEqual(rsp.code, 0)
+        speak = client[i].get_status().speak
+        self.assertEqual(speak, 0)
+        for i in range(num_players):
+            self.assertNotEqual(client[0].get_status().players[i].counter, 200)
+
+    def test_fold(self):
+        num_players = 2
+        client = [Client("p{}_{}".format(i, num_players)) for i in range(num_players)]
+        for i in range(num_players):
+            rsp = client[i].regist()
+            self.assertEqual(rsp.code, 0)
+            rsp = client[i].login()
+            self.assertEqual(rsp.code, 0)
+        room_id = client[0].create_room().room_id
+        for i in range(num_players):
+            rsp = client[i].getin_room(room_id)
+            self.assertEqual(rsp.code, 0)
+        for i in range(num_players):
+            self.assertEqual(client[i].is_ready(), False)
+            rsp = client[i].action({"action": "ready"})
+            self.assertEqual(rsp.code, 0)
+            while not client[i].is_ready():
+                time.sleep(0.1)
+            self.assertEqual(client[i].is_ready(), True)
+            # client[i].get_myid()
+        speak = client[i].get_status().speak
+        self.assertNotEqual(speak, 0)
+        rsp = client[speak - 1].action({"action": "fold"})
+        self.assertEqual(rsp.code, 0)
+        self.assertEqual(speak, 0)
         for i in range(num_players):
             self.assertNotEqual(client[0].get_status().players[i].counter, 200)
 
