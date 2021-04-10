@@ -5,7 +5,6 @@ test:
 	    --no-cov-on-fail \
 	    --cov-report=html:test-results/htmlcov \
 	    --cov-report term \
-	    --doctest-modules \
 	    --junitxml=test-results/junit.xml \
 	    ./
 	python3 -m coverage xml -o test-results/coverage.xml

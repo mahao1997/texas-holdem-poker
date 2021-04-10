@@ -9,7 +9,8 @@ class Client:
     def __init__(self, username=None):
         channel = grpc.insecure_channel("localhost:50051")
         self.stub = texas_pb2_grpc.TexasStub(channel)
-        self.set_username(username)
+        if username is not None:
+            self.set_username(username)
         self.myid = None
 
     def set_username(self, username):
@@ -66,6 +67,13 @@ class Client:
             if player.player_name == self.username:
                 self.myid = player.player_id
         return self.myid
+
+    def is_ready(self):
+        status = self.get_status()
+        for player in status.players:
+            if player.player_name == self.username:
+                return player.ready
+        return False
 
 
 if __name__ == "__main__":

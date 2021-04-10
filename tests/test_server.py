@@ -1,8 +1,5 @@
-import os
 import unittest
-import grpc
-from grpc_lib import texas_pb2_grpc, texas_pb2
-from concurrent import futures
+from grpc_lib import texas_pb2
 from texas_server import Texas
 import json
 
@@ -48,7 +45,7 @@ class TestServerRoom(unittest.TestCase):
         user_info = texas_pb2.UserInfo(user_name="username", passwd="")
         rsp = server.UserLogin(user_info, None)
         self.assertEqual(rsp.code, -1)
-    
+
     def test_room(self):
         def num_players(user_info, room_id):
             room_status = server.GetStatus(
@@ -177,9 +174,10 @@ class TestServerRoom(unittest.TestCase):
                 user_info=user_info,
                 room_id=room_id,
                 extra=json.dumps({"action": "ready"}),
-            ), None
+            ),
+            None,
         )
         self.assertEqual(rsp.code, 0)
-    
+
     def tearDown(self):
         pass

@@ -50,7 +50,7 @@ class TestRender(unittest.TestCase):
         status.banker = 1
         status.speak = 2
         render = Render()
-        render.parse(status, myid=1)
+        render.parse(status)
         render.draw()
 
     def test_longname(self):
@@ -61,5 +61,5 @@ class TestRender(unittest.TestCase):
         ].player_name = "Pablo Diego José Francisco de Paula Juan Nepomuceno Crispín Crispiniano María Remedios de la Santísima Trinidad Ruiz Picasso"
 
         render = Render()
-        render.parse(status, myid=1)
+        render.parse(status)
         render.draw()
