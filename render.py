@@ -59,9 +59,10 @@ class Player:
         self.pool = player_status.pool
         if player_status.active:
             self.hands = [Card(), Card()]
-        if len(player_status.hands) == 2:
-            self.hands[0].parse(player_status.hands[0])
-            self.hands[1].parse(player_status.hands[1])
+            if len(player_status.hands) == 2:
+                print(player_status.hands)
+                self.hands[0].parse(player_status.hands[0])
+                self.hands[1].parse(player_status.hands[1])
 
 
 class Render:
@@ -135,6 +136,7 @@ class Render:
                     print("└─────────────┘", end="")
             else:
                 print("               ", end="")
+
         print("room id:", self.room_id)
         for pos in [0, 1, 2, 3]:
             for i in [1, 2, 3, 4, 5]:
