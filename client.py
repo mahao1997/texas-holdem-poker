@@ -4,143 +4,121 @@ import time
 import json
 from render import Render
 
-user_info = None
 
+class Client:
+    def __init__(self, username=None):
+        channel = grpc.insecure_channel("localhost:50051")
+        self.stub = texas_pb2_grpc.TexasStub(channel)
+        self.set_username(username)
+        self.myid = None
 
-def regist(input_user_info):
-    channel = grpc.insecure_channel("localhost:50051")
-    stub = texas_pb2_grpc.TexasStub(channel)
-    response = stub.UserRegister(input_user_info)
-    print(response)
-    return response
-
-
-def login(input_user_info):
-    channel = grpc.insecure_channel("localhost:50051")
-    stub = texas_pb2_grpc.TexasStub(channel)
-    response = stub.UserLogin(input_user_info)
-    print(response)
-    return response
-
-
-def create_room():
-    channel = grpc.insecure_channel("localhost:50051")
-    stub = texas_pb2_grpc.TexasStub(channel)
-    req = texas_pb2.CreateRoomRequest(
-        room_name="my_test_room", blind=5, buyin=200, user_info=user_info
-    )
-    response = stub.CreateRoom(req)
-    print(response)
-    return response
-
-
-def getin_room(room_id):
-    channel = grpc.insecure_channel("localhost:50051")
-    stub = texas_pb2_grpc.TexasStub(channel)
-    req = texas_pb2.GetinRoomRequest(room_id=room_id, user_info=user_info)
-    response = stub.GetinRoom(req)
-    print(response)
-    return response
-
-
-def get_status(room_id):
-    channel = grpc.insecure_channel("localhost:50051")
-    stub = texas_pb2_grpc.TexasStub(channel)
-    response = stub.GetStatus(
-        texas_pb2.GetStatusRequest(user_info=user_info, room_id=room_id)
-    )
-    return response
-
-
-def send_action(extra, room_id):
-    channel = grpc.insecure_channel("localhost:50051")
-    stub = texas_pb2_grpc.TexasStub(channel)
-    response = stub.Action(
-        texas_pb2.ActionRequest(
-            user_info=user_info, room_id=room_id, extra=json.dumps(extra)
+    def set_username(self, username):
+        self.username = username
+        self.password = "password"  # TODO
+        self.user_info = texas_pb2.UserInfo(
+            user_name=self.username, passwd=self.password
         )
-    )
-    print(response)
-    return response
 
+    def regist(self):
+        response = self.stub.UserRegister(self.user_info)
+        return response
 
-def get_myid(status):
-    for player in status.room_status.players:
-        print(
-            "player name = {}, user name = {}, equal = {}".format(
-                player.player_name,
-                user_info.user_name,
-                player.player_name == user_info.user_name,
+    def login(self):
+        response = self.stub.UserLogin(self.user_info)
+        return response
+
+    def create_room(self, room_name=None, blind=5, buyin=200):
+        if room_name is None:
+            room_name = "{}'s room".format(self.username)
+        req = texas_pb2.CreateRoomRequest(
+            room_name=room_name, blind=blind, buyin=buyin, user_info=self.user_info
+        )
+        response = self.stub.CreateRoom(req)
+        self.room_id = response.room_id
+        return response
+
+    def getin_room(self, room_id=None):
+        if room_id is not None:
+            self.room_id = room_id
+        req = texas_pb2.GetinRoomRequest(room_id=self.room_id, user_info=self.user_info)
+        response = self.stub.GetinRoom(req)
+        return response
+
+    def get_status(self):
+        response = self.stub.GetStatus(
+            texas_pb2.GetStatusRequest(user_info=self.user_info, room_id=self.room_id)
+        )
+        return response.room_status
+
+    def action(self, extra):
+        response = self.stub.Action(
+            texas_pb2.ActionRequest(
+                user_info=self.user_info, room_id=self.room_id, extra=json.dumps(extra)
             )
         )
-        if player.player_name == user_info.user_name:
-            return player.player_id
+        return response
+
+    def get_myid(self):
+        if self.myid is not None:
+            return self.myid
+        status = self.get_status()
+        for player in status.players:
+            if player.player_name == self.username:
+                self.myid = player.player_id
+        return self.myid
 
 
 if __name__ == "__main__":
-    begin_get = False
-    room_id = None
+    client = Client()
     render = Render()
 
     while True:
-        st = input(
-            "input your action\nr : regist\nl : login\nc : create room\ng : get in room\n"
-        )
-        if st == "r":
-            user_name = input("input your user name\n").strip()
-            pass_wd = input("input your password\n").strip()
-            regist_user_info = texas_pb2.UserInfo(user_name=user_name, passwd=pass_wd)
-            rsp = regist(regist_user_info)
-            if rsp.code == 0:
-                user_info = regist_user_info
+        st = input("input your action\nl : login\nc : create room\ng : get in room\n")
         if st == "l":
             user_name = input("input your user name\n").strip()
-            pass_wd = input("input your password\n").strip()
-            login_user_info = texas_pb2.UserInfo(user_name=user_name, passwd=pass_wd)
-            rsp = login(login_user_info)
-            if rsp.code == 0:
-                user_info = login_user_info
+            client.set_username(user_name)
+            client.regist()
+            client.login()
         if st == "c":
-            create_room()
+            client.create_room()
+            client.getin_room()
+            break
         if st == "g":
             room_id = int(input("input room id\n").strip())
-            rsp = getin_room(room_id)
-            if rsp.code == 0:
-                break
+            client.getin_room(room_id)
+            break
 
     pre_status = None
     pre_time = time.time()
+    render.set_myid(client.get_myid())
+    render.set_room_id(client.room_id)
     while True:
-        status = get_status(room_id)
+        status = client.get_status()
         time.sleep(0.5)
         if status == pre_status:
             continue
         else:
-            print(type(status), type(status.room_status))
-            myid = get_myid(status)
-            render.parse(status.room_status, myid)
+            myid = client.get_myid()
+            render.parse(status)
             render.draw()
 
             pre_status = status
             pre_time = time.time()
 
-            if (
-                status.room_status.speak == 0
-                and status.room_status.players[myid - 1].ready
-            ):
+            if status.speak == 0 and status.players[myid - 1].ready:
                 continue
-            if status.room_status.speak == 0:
+            if status.speak == 0:
                 st = input("input your action:[ready][quit]\n")
                 if st == "ready":
-                    send_action({"action": "ready"}, room_id)
+                    client.action({"action": "ready"})
                 if st == "quit":
-                    send_action({"action": "quit"}, room_id)
-            if myid == status.room_status.speak:
+                    client.action({"action": "quit"})
+            if myid == status.speak:
                 st = input("input your action:[call][check][fold][raise]\n")
                 if st == "call" or st == "check":
-                    send_action({"action": "call"}, room_id)
+                    client.action({"action": "call"})
                 if st == "fold":
-                    send_action({"action": "fold"}, room_id)
+                    client.action({"action": "fold"})
                 if st == "raise":
                     target = int(input("input your target"))
-                    send_action({"action": "call", "raise_target": target}, room_id)
+                    client.action({"action": "call", "raise_target": target})

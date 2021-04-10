@@ -69,10 +69,17 @@ class Render:
         self.player = [Player() for i in range(9)]
         self.public = [Card() for i in range(5)]
         self.myid = 0
+        self.room_id = 0
 
-    def parse(self, status: texas_pb2.RoomStatus, myid):
-        self.__init__()
+    def set_myid(self, myid):
         self.myid = myid
+
+    def set_room_id(self, room_id):
+        self.room_id = room_id
+
+    def parse(self, status: texas_pb2.RoomStatus):
+        self.player = [Player() for i in range(9)]
+        self.public = [Card() for i in range(5)]
         for player in status.players:
             self.player[player.player_id - self.myid].parse(player)
         for i in range(len(status.public)):
@@ -128,7 +135,7 @@ class Render:
                     print("└─────────────┘", end="")
             else:
                 print("               ", end="")
-
+        print("room id:", self.room_id)
         for pos in [0, 1, 2, 3]:
             for i in [1, 2, 3, 4, 5]:
                 user_box(pos, i)
